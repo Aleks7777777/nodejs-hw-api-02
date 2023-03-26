@@ -9,6 +9,7 @@ const { HttpError } = require("../../helpers");
 const router = express.Router();
 
 const addSchema = Joi.object({
+
 	title: Joi.string().required().messages({
 		"any.required": `"title" must be exist`,
 		"string.base": `"title" must be string`,
@@ -29,7 +30,7 @@ router.get('/', async (req, res, next) => {
 router.get("/:Id", async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const result = await contacts.getById(id);
+		const result = await contacts.getContactById(id);
 
 		if (!result) {
 			throw HttpError(404, `Book with ${id} not found`);
@@ -47,7 +48,7 @@ router.post("/", async (req, res, next) => {
 		if (error) {
 			throw HttpError(400, error.message)
 		}
-		const result = await contacts.add(req.body);
+		const result = await contacts.addContacts(req.body);
 		res.status(201).json(result);
 	}
 	catch (error) {
@@ -58,7 +59,7 @@ router.post("/", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const result = await contacts.removeById(id);
+		const result = await contacts.removeContact(id);
 		if (!result) {
 			throw HttpError(404, `Book with ${id} not found`);
 		}
