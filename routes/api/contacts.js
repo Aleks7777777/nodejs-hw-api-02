@@ -9,31 +9,35 @@ const { HttpError } = require("../../helpers");
 const router = express.Router();
 
 const addSchema = Joi.object({
-
-	title: Joi.string().required().messages({
-		"any.required": `"title" must be exist`,
-		"string.base": `"title" must be string`,
-		"string.empty": `"title" cannot be empty`
+	name: Joi.string().required().messages({
+		"any.required": `"name" must be exist`,
+		"string.base": `"name" must be string`,
+		"string.empty": `"name" cannot be empty`
 	}),
-	author: Joi.string().required().messages({
-		"any.required": `"author" must be exist`,
-		"string.base": `"author" must be string`,
-		"string.empty": `"author" cannot be empty`
+	email: Joi.string().required().messages({
+		"any.required": `"email" must be exist`,
+		"string.base": `"email" must be string`,
+		"string.empty": `"email" cannot be empty`
+	}),
+	phone: Joi.string().required().messages({
+		"any.required": `"number" must be exist`,
+		"string.base": `"number" must be string`,
+		"string.empty": `"number" cannot be empty`
 	}),
 })
 
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
 	const result = await contacts.listContacts();
 	res.json(result)
 })
 
-router.get("/:Id", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const result = await contacts.getContactById(id);
 
 		if (!result) {
-			throw HttpError(404, `Book with ${id} not found`);
+			throw HttpError(404, `Contacts with ${id} not found`);
 		}
 		res.json(result);
 	}
@@ -61,7 +65,7 @@ router.delete("/:id", async (req, res, next) => {
 		const { id } = req.params;
 		const result = await contacts.removeContact(id);
 		if (!result) {
-			throw HttpError(404, `Book with ${id} not found`);
+			throw HttpError(404, `Contacts with ${id} not found`);
 		}
 		res.json({
 			message: "Delete success"
@@ -72,8 +76,23 @@ router.delete("/:id", async (req, res, next) => {
 	}
 })
 
-router.put("/:contactId", async (req, res, next) => {
-	res.json({ message: 'template message' })
+router.put("/:id", async (req, res, next) => {
+	try {
+		const { error } = addSchema.validate(req.body);
+		if (error) {
+			throw HttpError(400, error.message)
+		}
+		const { id } = req.params;
+		const result = await contacts.updateById(id, req.body);
+		if (!result) {
+			throw HttpError(404);
+		}
+
+		res.json({ message: "Update success" });
+	} catch (error) {
+		next(error)
+	}
+
 })
 
 module.exports = router;
