@@ -7,7 +7,8 @@ const ctrlWrapper = ctrl => {
 			next(error);
 		}
 	};
+
 	return func;
 }
 
-module.export = ctrlWrapper;
+module.exports = ctrlWrapper;

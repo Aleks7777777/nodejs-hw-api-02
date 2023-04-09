@@ -1,5 +1,5 @@
 
-const fs = require("fs").promises;
+const fs = require("fs/promises");
 const path = require("path");
 const { v4 } = require("uuid");
 
@@ -7,20 +7,20 @@ const contactsPath = path.join(__dirname, "./contacts.json");
 
 const updateContacts = async (contacts) => await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 
-const listContacts = async () => {
+const getAll = async () => {
 	const data = await fs.readFile(contactsPath);
 	return JSON.parse(data);
 
 }
 
-const getContactById = async (Id) => {
-	const contacts = await listContacts();
+const getById = async (Id) => {
+	const contacts = await getAll();
 	const result = contacts.find(item => item.id === Id);
 	return result || null;
 }
 
-const addContacts = async ({ name, email, phone }) => {
-	const contacts = await listContacts();
+const add = async ({ name, email, phone }) => {
+	const contacts = await getAll();
 	const newContact = {
 		id: v4(),
 		name,
@@ -33,7 +33,7 @@ const addContacts = async ({ name, email, phone }) => {
 }
 
 const updateById = async (id, { name, email, phone }) => {
-	const contacts = await listContacts();
+	const contacts = await getAll();
 	const index = contacts.findIndex(item => item.id === id);
 	if (index === -1) {
 		return null;
@@ -43,8 +43,8 @@ const updateById = async (id, { name, email, phone }) => {
 	return contacts[index];
 }
 
-const removeContact = async (Id) => {
-	const contacts = await listContacts();
+const removeById = async (Id) => {
+	const contacts = await getAll();
 	const index = contacts.findIndex(item => item.id === Id);
 	if (index === -1) {
 		return null;
@@ -58,9 +58,9 @@ const removeContact = async (Id) => {
 
 
 module.exports = {
-	listContacts,
-	getContactById,
-	removeContact,
-	addContacts,
+	getAll,
+	getById,
+	removeById,
+	add,
 	updateById,
 };
