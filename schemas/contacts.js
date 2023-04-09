@@ -17,7 +17,7 @@ const addSchema = Joi.object({
 		"string.base": `"number" must be string`,
 		"string.empty": `"number" cannot be empty`
 	}),
-})
+});
 
 module.exports = {
 	addSchema,

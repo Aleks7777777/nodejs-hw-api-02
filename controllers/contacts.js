@@ -5,22 +5,21 @@ const contacts = require("../models/contacts");
 const { HttpError } = require("../helpers");
 
 
-
 const getAll = async (req, res) => {
-	const result = await contacts.listContacts();
+	const result = await contacts.getAll();
 	res.json(result)
 };
 
 const getById = async (req, res) => {
 	const { id } = req.params;
-	const result = await contacts.getContactById(id);
+	const result = await contacts.getById(id);
 	if (!result) {
 		throw HttpError(404, `Contacts with ${id} not found`);
 	}
 	res.json(result);
 };
 const add = async (req, res) => {
-	const result = await contacts.addContacts(req.body);
+	const result = await contacts.add(req.body);
 	res.status(201).json(result);
 };
 

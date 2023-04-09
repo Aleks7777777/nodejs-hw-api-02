@@ -16,7 +16,8 @@
     "morgan": "1.10.0",
     "nanoid": "3.3.4",
     "uuid": "^9.0.0",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "wrapper": "^0.1.0"
   },
   "devDependencies": {
     "eslint": "7.19.0",
