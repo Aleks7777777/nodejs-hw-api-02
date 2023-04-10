@@ -13,9 +13,9 @@ const getAll = async () => {
 
 }
 
-const getById = async (Id) => {
+const getById = async (id) => {
 	const contacts = await getAll();
-	const result = contacts.find(item => item.id === Id);
+	const result = contacts.find(item => item.id === id);
 	return result || null;
 }
 
@@ -43,9 +43,9 @@ const updateById = async (id, { name, email, phone }) => {
 	return contacts[index];
 }
 
-const removeById = async (Id) => {
+const removeById = async (id) => {
 	const contacts = await getAll();
-	const index = contacts.findIndex(item => item.id === Id);
+	const index = contacts.findIndex(item => item.id === id);
 	if (index === -1) {
 		return null;
 	}
