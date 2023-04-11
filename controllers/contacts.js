@@ -1,6 +1,6 @@
 const { ctrlWrapper } = require("../utils");
 
-const { Contact } = require("../models/contacts");
+const { Contact } = require("../models/contact");
 
 const { HttpError } = require("../helpers");
 
@@ -38,9 +38,17 @@ const deleteById = async (req, res) => {
 	if (!result) {
 		throw HttpError(404, `Contacts with ${id} not found`);
 	}
-	res.json({
-		message: "Delete success"
-	})
+	res.json({ message: "Delete success" })
+};
+
+const updateFavorite = async (req, res) => {
+	const { id } = req.params;
+	const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+	if (!result) {
+		throw HttpError(404, `Contact with ${id} not found`);
+	}
+
+	res.json(result);
 };
 
 
@@ -50,4 +58,5 @@ module.exports = {
 	add: ctrlWrapper(add),
 	updateById: ctrlWrapper(updateById),
 	deleteById: ctrlWrapper(deleteById),
+	updateFavorite: ctrlWrapper(updateFavorite),
 }

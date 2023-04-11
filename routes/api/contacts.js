@@ -6,7 +6,7 @@ const { validateBody } = require("../../utils")
 
 const { isValidId } = require("../../middlewares")
 
-const schemas = require("../../modeis/contact")
+const schemas = require("../../models/contact")
 
 const router = express.Router();
 
@@ -20,6 +20,7 @@ router.put("/:id", isValidId, validateBody(schemas.addSchema), ctrl.updateById);
 
 router.delete("/:id", isValidId, ctrl.deleteById);
 
+router.patch("/:id/favorite", isValidId, validateBody(schemas.updateFavoriteSchema), ctrl.updateFavorite);
 
 
 module.exports = router;
