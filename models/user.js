@@ -28,8 +28,11 @@ const userSchema = new Schema(
 			type: String,
 			default: "",
 		},
-	},
-	{ versionKey: false, timestamps: true }
+		avatarURL: {
+			type: String,
+			required: true,
+		}
+	}, { versionKey: false, timestamps: true }
 );
 
 userSchema.post("save", handleMongooseError);
