@@ -3,6 +3,7 @@ const gravatar = require("gravatar");
 const jwt = require("jsonwebtoken");
 const fs = require("fs/promises")
 const path = require("path");
+const { nanoid } = require("nanoid");
 
 
 const { SECRET_KEY, BASE_URL } = process.env;
@@ -15,7 +16,7 @@ const { HttpError, sendEmail } = require("../helpers");
 
 const avatarDir = path.join(__dirname, "../", "public", "avatars");
 
-const { nanoid } = require("nanoid");
+
 
 const register = async (req, res) => {
 	const { email, password } = req.body;
